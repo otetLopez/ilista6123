@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, ImageBackground, Text, View } from 'react-native';
-
+import 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
 
 import bg from './assets/bg.jpg';
 
@@ -27,8 +28,6 @@ const editNote = id => {
   console.log("edit note at index " + id); 
   // Should navigate to edit note
 };
-
-
 
 /**
  * Name: DisplayList()
@@ -73,24 +72,26 @@ export default function App() {
     backgroundColor: 'rgba(1, 90, 169,.2)', padding: '20px', borderRadius: '4px', alignItems: 'center', marginLeft: '5%', marginRight: '5%'};
 
   return (
-    <View style={styles.container}>
-      <ImageBackground source={bg} style={styles.bg}>
-        <div style={{alignItems: 'center', textAlign: 'center', padding: '30px'}}>
-          <h1 style= {{color: '#f0f0f0'}}>ILISTA</h1>
-          <p style= {{color: '#f0f0f0'}}><i>A companion.  A simple note application</i></p>
-          <br/><br/><br/><br/><br/>
-      
-          <div className="notelist" style={style_notelist}>
-            <p style= {{color: '#f0f0f0'}}>Inser Note Display here</p> 
+    <NavigationContainer>{
+      <View style={styles.container}>
+        <ImageBackground source={bg} style={styles.bg}>
+          <div style={{alignItems: 'center', textAlign: 'center', padding: '30px'}}>
+            <h1 style= {{color: '#f0f0f0'}}>ILISTA</h1>
+            <p style= {{color: '#f0f0f0'}}><i>A companion.  A simple note application</i></p>
+            <br/><br/><br/><br/><br/>
+        
+            <div className="notelist" style={style_notelist}>
+              <p style= {{color: '#f0f0f0'}}>Inser Note Display here</p> 
+            </div>
+            <br/><br/>
+            <div>
+            <button class="smallButtons" style={style_add_btn} onClick={() => alert("Test")}>+</button>  
+            </div>
           </div>
-          <br/><br/>
-          <div>
-          <button class="smallButtons" style={style_add_btn} onClick={() => alert("Test")}>+</button>  
-          </div>
-        </div>
-      </ImageBackground>
-      <StatusBar style="auto" />
-    </View>
+        </ImageBackground>
+        <StatusBar style="auto" />
+      </View>
+    }</NavigationContainer>
   );
 }
 
@@ -108,16 +109,3 @@ const styles = StyleSheet.create({
   }
 });
 
-const inner_styles = StyleSheet.create({
-  notelist: {
-    backgroundColor: '#f0f0f0'
-  },
-  add_btn: {
-    flex: 1,
-    width: '60px',
-    height: '60px',
-    borderRadius: '30px',
-    fontSize: 'x-large',
-    textAlign: 'center'
-  }
-});
