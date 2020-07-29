@@ -55,18 +55,35 @@ function DisplayList(props) {
 }
 
 export default function App() {
+
+  const style_add_btn = {
+      flex: 1,
+      width: '60px',
+      height: '60px',
+      borderRadius: '30px',
+      fontSize: 'x-large',
+      textAlign: 'center'
+    };
+  
+  const style_notelist = { flex: 1,
+    backgroundColor: 'rgba(1, 90, 169,.2)', padding: '20px', borderRadius: '4px', alignItems: 'center', marginLeft: '5%', marginRight: '5%'};
+
   return (
     <View style={styles.container}>
       <ImageBackground source={bg} style={styles.bg}>
-        <h1 style= {{color: '#f0f0f0'}}>ILISTA</h1>
-        <p style= {{color: '#f0f0f0'}}><i>A companion.  A simple note application</i></p>
-        <br/><br/><br/><br/><br/>
-    
-        <div className="notelist" style={inner_styles.notelist}>
-          <p style= {{color: '#f0f0f0'}}>Inser Note Display here</p> 
-        </div>
-        <button class="smallButtons" onClick={() => alert("Test")}>+</button>  
+        <div style={{alignItems: 'center', textAlign: 'center', padding: '30px'}}>
+          <h1 style= {{color: '#f0f0f0'}}>ILISTA</h1>
+          <p style= {{color: '#f0f0f0'}}><i>A companion.  A simple note application</i></p>
+          <br/><br/><br/><br/><br/>
       
+          <div className="notelist" style={style_notelist}>
+            <p style= {{color: '#f0f0f0'}}>Inser Note Display here</p> 
+          </div>
+          <br/><br/>
+          <div>
+          <button class="smallButtons" style={style_add_btn} onClick={() => alert("Test")}>+</button>  
+          </div>
+        </div>
       </ImageBackground>
       <StatusBar style="auto" />
     </View>
@@ -81,15 +98,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   bg: {
-    flex: 1,
     height: '100%',
     width: '100%',
     alignItems: 'center',
-    justifyContent: 'center'
-  },
-  mainview: {
-    alignItems: 'center',
-    justifyContent: 'center'
   }
 });
 
@@ -99,7 +110,10 @@ const inner_styles = StyleSheet.create({
   },
   add_btn: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
+    width: '60px',
+    height: '60px',
+    borderRadius: '30px',
+    fontSize: 'x-large',
+    textAlign: 'center'
   }
 });
