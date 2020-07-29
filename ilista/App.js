@@ -5,6 +5,10 @@ import { StyleSheet, ImageBackground, Text, View } from 'react-native';
 
 import bg from './assets/bg.jpg';
 
+
+export const INFO_LOG = "INFO_DEBUG: ";
+var notesList = [];
+var nId = 0; 
 /**
  * Name: createNewNote() 
  * This function routes user to add new note view.  Called when "Add New Note" button is called.
