@@ -1,6 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, ImageBackground, Text, View } from 'react-native';
+
+
+import bg from './assets/bg.jpg';
 
 /**
  * Name: createNewNote() 
@@ -54,19 +57,21 @@ function DisplayList(props) {
 export default function App() {
   return (
     <View style={styles.container}>
-      <div className="app">
-        <h1>ILISTA</h1>
-        <p><i>A companion.  A simple note application</i></p>
-        <br/><br/><br/><br/><br/>
-        <div className="notelist">
-          Inser Note Display here
+      <ImageBackground source={bg} style={styles.bg}>
+        <div className="app">
+          <h1>ILISTA</h1>
+          <p><i>A companion.  A simple note application</i></p>
+          <br/><br/><br/><br/><br/>
+          <div className="notelist">
+            Inser Note Display here
+          </div>
+          <br/><br/><br/><br/><br/> <br/><br/>
+          <div>
+            <button class="smallButtons" onClick={() => alert("Test")}>+</button>
+          </div>
         </div>
-        <br/><br/><br/><br/><br/> <br/><br/>
-        <div>
-          <button class="smallButtons" onClick={() => alert("Test")}>+</button>
-        </div>
-      </div>
-      <StatusBar style="auto" />
+        <StatusBar style="auto" />
+      </ImageBackground>
     </View>
   );
 }
@@ -78,4 +83,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  bg: {
+    height: '100%',
+    width: '100%'
+  }
 });
