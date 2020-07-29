@@ -58,20 +58,17 @@ export default function App() {
   return (
     <View style={styles.container}>
       <ImageBackground source={bg} style={styles.bg}>
-        <div className="app">
-          <h1>ILISTA</h1>
-          <p><i>A companion.  A simple note application</i></p>
-          <br/><br/><br/><br/><br/>
-          <div className="notelist">
-            Inser Note Display here
-          </div>
-          <br/><br/><br/><br/><br/> <br/><br/>
-          <div>
-            <button class="smallButtons" onClick={() => alert("Test")}>+</button>
-          </div>
+        <h1 style= {{color: '#f0f0f0'}}>ILISTA</h1>
+        <p style= {{color: '#f0f0f0'}}><i>A companion.  A simple note application</i></p>
+        <br/><br/><br/><br/><br/>
+    
+        <div className="notelist" style={inner_styles.notelist}>
+          <p style= {{color: '#f0f0f0'}}>Inser Note Display here</p> 
         </div>
-        <StatusBar style="auto" />
+        <button class="smallButtons" onClick={() => alert("Test")}>+</button>  
+      
       </ImageBackground>
+      <StatusBar style="auto" />
     </View>
   );
 }
@@ -84,7 +81,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   bg: {
+    flex: 1,
     height: '100%',
-    width: '100%'
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  mainview: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
+});
+
+const inner_styles = StyleSheet.create({
+  notelist: {
+    backgroundColor: '#f0f0f0'
+  },
+  add_btn: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
