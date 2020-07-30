@@ -51,13 +51,16 @@ function homeScreen({ route, navigation }) {
     flex: 1,
     width: 60,
     height: 60,
+    color: '#f0ffff',
+    backgroundColor: '#4b0082',
     borderRadius: 30,
-    fontSize: 'x-large',
+    fontSize: 30,
     textAlign: 'center'
   };
 
   const style_notelist = { 
     flex: 1, 
+    width: '100%',
     backgroundColor: 'rgba(1, 90, 169,.2)', 
     padding: 20, 
     borderRadius: 4, 
@@ -70,8 +73,8 @@ function homeScreen({ route, navigation }) {
   return(
     <View style={styles.container}>
       <ImageBackground source={bg} style={styles.bg}>
-        <View style={{alignItems: 'center', padding: 30}}>
-        <Text style= {{fontSize: 40, fontWeight: 'bold', color: '#f0f0f0'}}>ILISTA</Text>
+        <View style={{height: '100%', width: '100%', alignItems: 'center', padding: 30}}>
+          <Text style= {{fontSize: 40, fontWeight: 'bold', color: '#f0f0f0'}}>ILISTA</Text>
           <Text style= {{color: '#f0f0f0', fontStyle: 'italic'}}>{"\n"}A companion.  A simple note application </Text>
           
           <View style={style_notelist}>
@@ -80,11 +83,10 @@ function homeScreen({ route, navigation }) {
               removeNote={removeNote}
               editNote={editNote}
             />}
-            <Text style= {{color: '#f0f0f0'}}>Inser Note Display here </Text>
           </View>
        
-          <View style={{marginTop: '8%', marginBottom: '3%'}}>
-          <Button title='+' style={style_add_btn} onPress={() => navigation.navigate('New Note')}/>
+          <View style={{marginTop: '2%', marginBottom: '3%'}}>
+          <Button title='+' color='#f0ffff' backgroundColor='#4b0082' onPress={() => navigation.navigate('New Note')}/>
           </View>
         </View>
       </ImageBackground>
@@ -127,12 +129,29 @@ const editNote = id => {
  * @param {*} props 
  */
 function DisplayList(props) {
+  const style_note = {
+    borderRadius: 15,
+    backgroundColor: '#008080',
+    // boxShadow: 1 1 1 'rgba(0, 0, 0, 0.15)',
+    padding: 10,
+    alignItems: 'center',
+    marginBottom: 2
+  };
+  const style_title_in = {
+    fontSize: 15,
+    color: '#f0f0f0',
+    textAlign: 'center'
+  }
+  const style_content_in = {
+    fontSize: 10,
+    color: '#f0f0f0',
+    textAlign: 'center'
+  }
   const content = props.posts.map((post) =>
     <View key={post.id}>
-      <View>
-        <Text>Title</Text>
-        <Text onClick={() => props.editNote(post.id)}>{post.title}</Text>
-        <Text>{"\n"}{post.content}</Text>
+      <View style={style_note} onClick={() => alert("We will edit this")}>
+        <Text style={style_title_in}>{post.title}</Text>
+        <Text style={style_content_in}>{post.content}</Text>
         <Button title='DEL' onPress={() => props.removeNote(post.id)}/>
       </View>
     </View>
