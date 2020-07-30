@@ -6,9 +6,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import bg from './assets/bg.jpg';
-
 import {createNewNote} from './src/AddNote.js'
+import {Note} from './src/Note.js'
+
+'use strict';
+
 export const INFO_LOG = "INFO_DEBUG: ";
+
 var notesList = [];
 var nId = 0; 
 
@@ -93,8 +97,18 @@ function processNewData(nIndex, nTitle , nContent) {
   console.log(INFO_LOG + "processNewData()" + nTitle + nContent + nIndex)
 
   // Let's give a default email for now
-  
+  var email = "ilista@admin.com";
+
+  // New Notes should have undefined nIndex
+  if(nIndex === undefined) {
+    var newNote = new Note(nId, nTitle, nContent, email);
+    notesList.push(newNote);
+    nId = nId + 1;
+  } else if (nIndex === null) {
+    console.log(INFO_LOG + "nIndex is not set");
+  }
 }
+
 
 /**
  * editNote()
@@ -118,7 +132,7 @@ function DisplayList(props) {
       <View>
         <Text>Title</Text>
         <Text onClick={() => props.editNote(post.id)}>{post.title}</Text>
-        <Text>{"/n"}{post.content}</Text>
+        <Text>{"\n"}{post.content}</Text>
         <Button title='DEL' onPress={() => props.removeNote(post.id)}/>
       </View>
     </View>
