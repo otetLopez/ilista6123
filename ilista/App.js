@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
-import { StyleSheet, ImageBackground, Text, View, Button } from 'react-native';
+import { StyleSheet, ImageBackground, Text, View, Button, TouchableOpacity } from 'react-native';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -15,22 +15,27 @@ export const INFO_LOG = "INFO_DEBUG: ";
 
 var notesList = [];
 var nId = 0; 
+var isNew;
 
 function homeScreen({ route, navigation }) {
   const [notes, setNotes] = useState([
   ]);
-
+  console.log(INFO_LOG + "isNew is " + isNew);
   /* Let's check if there are params sent from AddNote or Edit */
-  try {
-    const { newTitle } = route.params;
-    const { newContent } = route.params;
-    const { index } = route.params;
-    processNewData(index, newTitle, newContent);
-  } catch (error) {
-    console.log(INFO_LOG + "No data yet")
+  if(isNew === true) {
+    try {
+      const { newTitle } = route.params;
+      const { newContent } = route.params;
+      const { index } = route.params;
+      processNewData(index, newTitle, newContent);
+      isNew = false;
+    } catch (error) {
+      console.log(INFO_LOG + "No data yet")
+    }
   }
 
   const removeNote = id => {
+    console.log(INFO_LOG + "Removing note at index " + id); 
     const newNotes = [...notes];
     for(var i=0; i<notesList.length; i++) {
       if(notesList[i].id === id) {
@@ -69,7 +74,6 @@ function homeScreen({ route, navigation }) {
     marginRight: '5%', 
     marginTop: '20%'};
 
-  // <button style={style_add_btn} onClick={() => navigation.navigate('New Note')}><Text>+</Text></button> 
   return(
     <View style={styles.container}>
       <ImageBackground source={bg} style={styles.bg}>
@@ -86,7 +90,8 @@ function homeScreen({ route, navigation }) {
           </View>
        
           <View style={{marginTop: '2%', marginBottom: '3%'}}>
-          <Button title='+' color='#f0ffff' backgroundColor='#4b0082' onPress={() => navigation.navigate('New Note')}/>
+          <Button title='+' color='#f0ffff' backgroundColor='#4b0082' onPress={() => {isNew = true;
+                                      navigation.navigate('New Note')}}/>
           </View>
         </View>
       </ImageBackground>
@@ -96,7 +101,7 @@ function homeScreen({ route, navigation }) {
 }
 
 function processNewData(nIndex, nTitle , nContent) {
-  console.log(INFO_LOG + "processNewData()" + nTitle + nContent + nIndex)
+  console.log(INFO_LOG + "processNewData()" + nTitle + nContent + nIndex )
 
   // Let's give a default email for now
   var email = "ilista@admin.com";
@@ -131,6 +136,7 @@ const editNote = id => {
 function DisplayList(props) {
   const style_note = {
     borderRadius: 15,
+    width: '100%',
     backgroundColor: '#008080',
     // boxShadow: 1 1 1 'rgba(0, 0, 0, 0.15)',
     padding: 10,
@@ -149,11 +155,13 @@ function DisplayList(props) {
   }
   const content = props.posts.map((post) =>
     <View key={post.id}>
-      <View style={style_note} onClick={() => alert("We will edit this")}>
+      <TouchableOpacity onPress={() => alert("We will edit this")}>
+      <View style={style_note}>
         <Text style={style_title_in}>{post.title}</Text>
         <Text style={style_content_in}>{post.content}</Text>
         <Button title='DEL' onPress={() => props.removeNote(post.id)}/>
       </View>
+      </TouchableOpacity>
     </View>
   );
   return (
