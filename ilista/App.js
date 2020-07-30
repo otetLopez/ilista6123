@@ -3,6 +3,7 @@ import React from 'react';
 import { StyleSheet, ImageBackground, Text, View } from 'react-native';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import bg from './assets/bg.jpg';
 
@@ -10,16 +11,55 @@ import bg from './assets/bg.jpg';
 export const INFO_LOG = "INFO_DEBUG: ";
 var notesList = [];
 var nId = 0; 
+
+function homeScreen({ navigation }) {
+  const style_add_btn = {
+    flex: 1,
+    width: '60px',
+    height: '60px',
+    borderRadius: '30px',
+    fontSize: 'x-large',
+    textAlign: 'center'
+  };
+
+  const style_notelist = { flex: 1, backgroundColor: 'rgba(1, 90, 169,.2)', padding: '20px', borderRadius: '4px', alignItems: 'center', marginLeft: '5%', marginRight: '5%'};
+
+  return(
+    <View style={styles.container}>
+      <ImageBackground source={bg} style={styles.bg}>
+        <div style={{alignItems: 'center', textAlign: 'center', padding: '30px'}}>
+          <h1 style= {{color: '#f0f0f0'}}>ILISTA</h1>
+          <p style= {{color: '#f0f0f0'}}><i>A companion.  A simple note application</i></p>
+          <br/><br/><br/><br/><br/>
+      
+          <div className="notelist" style={style_notelist}>
+            <p style= {{color: '#f0f0f0'}}>Inser Note Display here</p> 
+          </div>
+          <br/><br/>
+          <div>
+          <button class="smallButtons" style={style_add_btn} onClick={() => navigation.navigate('New Note')}>+</button>  
+          </div>
+        </div>
+      </ImageBackground>
+      <StatusBar style="auto" />
+    </View>
+  );
+}
+
+
 /**
  * Name: createNewNote() 
  * This function routes user to add new note view.  Called when "Add New Note" button is called.
  * The note_index is just incremented when there is a note being pushed
  */
 function createNewNote() {
-  console.log(INFO_LOG + "CreateNewNote")
-  const where = document.getElementById("root");
-  // Should Navigate to Add Note Page
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Home Screen</Text>
+    </View>
+  );
 }
+
 /**
  * editNote()
  * @param {*} id 
@@ -57,40 +97,14 @@ function DisplayList(props) {
   );
 }
 
+const Stack = createStackNavigator();
 export default function App() {
-
-  const style_add_btn = {
-      flex: 1,
-      width: '60px',
-      height: '60px',
-      borderRadius: '30px',
-      fontSize: 'x-large',
-      textAlign: 'center'
-    };
-  
-  const style_notelist = { flex: 1,
-    backgroundColor: 'rgba(1, 90, 169,.2)', padding: '20px', borderRadius: '4px', alignItems: 'center', marginLeft: '5%', marginRight: '5%'};
-
   return (
-    <NavigationContainer>{
-      <View style={styles.container}>
-        <ImageBackground source={bg} style={styles.bg}>
-          <div style={{alignItems: 'center', textAlign: 'center', padding: '30px'}}>
-            <h1 style= {{color: '#f0f0f0'}}>ILISTA</h1>
-            <p style= {{color: '#f0f0f0'}}><i>A companion.  A simple note application</i></p>
-            <br/><br/><br/><br/><br/>
-        
-            <div className="notelist" style={style_notelist}>
-              <p style= {{color: '#f0f0f0'}}>Inser Note Display here</p> 
-            </div>
-            <br/><br/>
-            <div>
-            <button class="smallButtons" style={style_add_btn} onClick={() => alert("Test")}>+</button>  
-            </div>
-          </div>
-        </ImageBackground>
-        <StatusBar style="auto" />
-      </View>
+    <NavigationContainer initialRouteName="Home">{
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={homeScreen} options={{title: 'Notes'}}/>
+        <Stack.Screen name="New Note" component={createNewNote} />
+      </Stack.Navigator>
     }</NavigationContainer>
   );
 }
@@ -103,6 +117,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   bg: {
+    flex: 1,
     height: '100%',
     width: '100%',
     alignItems: 'center',
