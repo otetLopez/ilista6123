@@ -3,7 +3,7 @@ import { StyleSheet, ImageBackground, Text, View, Button, TextInput} from 'react
 import 'react-native-gesture-handler';
 
 import bg from '../assets/bg.jpg';
-export const INFO_LOG = "INFO_DEBUG: ";
+export const INFO_LOG = "INFO_ADD_DEBUG: ";
 
 'use strict';
 
@@ -59,7 +59,7 @@ export function createNewNote({navigation}) {
                         id="title_in"
                         value={title_in}
                         style={style_title_in}
-                        onChangeText={text => setTitle(text)}
+                        onChangeText={text => {setTitle(text)}}
                     />
                     <TextInput 
                         id="content_in"

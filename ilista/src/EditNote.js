@@ -7,23 +7,35 @@ import {Note} from './Note.js';
 
 'use strict';
 
-const INFO_LOG = "INFO_DEBUG: ";
+const INFO_LOG = "INFO_EDIT__DEBUG: ";
+var isUpdated = false;
 /**
  * Name: editNote() 
  * This function routes user to edit  note view.  
  */
 export function editNote({route, navigation}) {
-    console.log(INFO_LOG + 'We are editing');
-    try {
-        const { nIdx } = route.params;
-        const { noteToEdit } = route.params;
-        console.log(INFO_LOG + 'There is data at ' + nIdx);
-        console.log(noteToEdit.title);
-      } catch (error) {
-        console.log(INFO_LOG + "No data yet")
-      }
     const [title_in, setTitle] = React.useState("");
     const [content_in, setContent] = React.useState("");
+   
+    var note_index;  //initially undefined
+    try {
+        if(isUpdated === false) {
+            const { nIdx } = route.params;
+            const { noteToEdit } = route.params;
+            // console.log(INFO_LOG + 'There is data at ' + nIdx + ":" + noteToEdit.title + "," + noteToEdit.content);
+            note_index = nIdx;
+            var oldTitle = noteToEdit.title;
+            var oldContent = noteToEdit.content;
+            console.log(INFO_LOG + 'We are editing data at ' + nIdx + ":" + oldTitle + "," + oldContent);
+
+            setTitle(oldTitle);
+            setContent(oldContent);
+            isUpdated = true;
+        }
+      } catch (error) {
+        console.log(INFO_LOG + "No data for edit")
+      }
+
 
     const style_noteform = { 
         flex: 1, 
@@ -80,13 +92,15 @@ export function editNote({route, navigation}) {
                 </View>
                 <View style={{marginTop: '10%'}}> 
                     <Button title='Save' onPress={() => {
-                        console.log(INFO_LOG + "Before: " + title_in + content_in);
+                        console.log(INFO_LOG + "Before: " + note_index + ":" + title_in + "," + content_in);
+                        isUpdated=false;
                         navigation.navigate('Home', {
+                            nIdx: note_index,
                             newTitle: title_in,
                             newContent: content_in
                         });
                     }}/>
-                    <Button title='Cancel' onPress={() => navigation.goBack()}/> 
+                    <Button title='Cancel' onPress={() => {isUpdated=false;navigation.goBack()}}/> 
                 </View>
             </View>
         </ImageBackground>

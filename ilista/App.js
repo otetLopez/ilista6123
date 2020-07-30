@@ -12,7 +12,7 @@ import {Note} from './src/Note.js'
 
 'use strict';
 
-export const INFO_LOG = "INFO_DEBUG: ";
+export const INFO_LOG = "INFO_APP_DEBUG: ";
 
 var notesList = [];
 var nId = 0; 
