@@ -89,16 +89,11 @@ function homeScreen({ route, navigation }) {
   );
 }
 
-function processNewData(index, newTitle , newContent) {
-  console.log(INFO_LOG + "processNewData()" + newTitle + newContent)
-  // var nTitle = JSON.parse(JSON.stringify(newTitle));
-  // var nContent = JSON.parse(JSON.stringify(newContent));
-  // var nIndex = JSON.parse(JSON.stringify(index)); 
+function processNewData(nIndex, nTitle , nContent) {
+  console.log(INFO_LOG + "processNewData()" + nTitle + nContent + nIndex)
+
+  // Let's give a default email for now
   
-  var nTitle = newTitle;
-  var nContent = newContent;
-  var nIndex = index;
-  console.log(INFO_LOG + nTitle + nContent + nIndex);
 }
 
 /**

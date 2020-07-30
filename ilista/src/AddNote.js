@@ -50,6 +50,7 @@ function NoteForm() {
                 value={title_in}
                 style={style_title_in}
                 onChangeText={text => setTitle(text)}
+                onChange= {e => titleState = e.target.value}
             />
             <TextInput 
                 id="content_in"
@@ -57,19 +58,21 @@ function NoteForm() {
                 value={content_in}
                 onChangeText={text => setContent(text)}
                 style={style_content_in}
+                onChange= {e => {contentState = e.target.value; console.log(contentState);}}
                 multiline={true}
             />
         </View>
     );
 }
 
+var titleState = "";
+var contentState = "";
 /**
  * Name: createNewNote() 
  * This function routes user to add new note view.  Called when "Add New Note" button is called.
  * The note_index is just incremented when there is a note being pushed
  */
 export function createNewNote({navigation}) {
-
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <ImageBackground source={bg} style={styles.bg}>
@@ -79,8 +82,9 @@ export function createNewNote({navigation}) {
                 <NoteForm/>
                 <View style={{marginTop: '10%'}}> 
                     <Button title='Save' onPress={() => {
-                        var title = document.getElementById('title_in').value
-                        var content = document.getElementById('content_in').value;
+                        var title = titleState;
+                        var content = contentState;
+                        console.log(INFO_LOG + "Before: " + title + content);
                         navigation.navigate('Home', {
                             newTitle: title,
                             newContent: content,
