@@ -16,18 +16,15 @@ function homeScreen({ route, navigation }) {
   const [notes, setNotes] = useState([
   ]);
 
+  /* Let's check if there are params sent from AddNote or Edit */
   try {
     const { newTitle } = route.params;
     const { newContent } = route.params;
-    
-    var test1 = JSON.stringify(newTitle);
-    var test2 = JSON.stringify(newContent);
-    console.log(INFO_LOG + test1 + test2 );
-
+    const { index } = route.params;
+    processNewData(index, newTitle, newContent);
   } catch (error) {
-    console.log("No data yet")
+    console.log(INFO_LOG + "No data yet")
   }
-
 
   const removeNote = id => {
     const newNotes = [...notes];
@@ -91,6 +88,19 @@ function homeScreen({ route, navigation }) {
     </View>
   );
 }
+
+function processNewData(index, newTitle , newContent) {
+  console.log(INFO_LOG + "processNewData()" + newTitle + newContent)
+  // var nTitle = JSON.parse(JSON.stringify(newTitle));
+  // var nContent = JSON.parse(JSON.stringify(newContent));
+  // var nIndex = JSON.parse(JSON.stringify(index)); 
+  
+  var nTitle = newTitle;
+  var nContent = newContent;
+  var nIndex = index;
+  console.log(INFO_LOG + nTitle + nContent + nIndex);
+}
+
 /**
  * editNote()
  * @param {*} id 
