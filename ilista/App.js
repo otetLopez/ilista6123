@@ -140,7 +140,10 @@ function DisplayList(props, {navigation}) {
   }
   const content = props.posts.map((post) =>
     <View key={post.id}>
-      <TouchableOpacity onPress={() => {props.navigation.navigate('Edit Note', { nIdx: post.id, noteToEdit: post})}}>
+      <TouchableOpacity onPress={() => {
+        isNew = true;
+        props.navigation.navigate('Edit Note', { nIdx: post.id, noteToEdit: post})
+      }}>
       <View style={style_note}>
         <Text style={style_title_in}>{post.title}</Text>
         <Text style={style_content_in}>{post.content}</Text>
