@@ -59,7 +59,7 @@ export function createNewNote({navigation}) {
                         id="title_in"
                         value={title_in}
                         style={style_title_in}
-                        onChangeText={text => {setTitle(text)}}
+                        onChangeText={text => setTitle(text)}
                     />
                     <TextInput 
                         id="content_in"
