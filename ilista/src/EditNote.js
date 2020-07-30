@@ -1,19 +1,27 @@
-import React from 'react';
+import React, { version } from 'react';
 import { StyleSheet, ImageBackground, Text, View, Button, TextInput} from 'react-native';
 import 'react-native-gesture-handler';
 
 import bg from '../assets/bg.jpg';
-export const INFO_LOG = "INFO_DEBUG: ";
+import {Note} from './Note.js';
 
 'use strict';
 
-
+const INFO_LOG = "INFO_DEBUG: ";
 /**
- * Name: createNewNote() 
- * This function routes user to add new note view.  Called when "Add New Note" button is called.
- * The note_index is just incremented when there is a note being pushed
+ * Name: editNote() 
+ * This function routes user to edit  note view.  
  */
-export function createNewNote({navigation}) {
+export function editNote({route, navigation}) {
+    console.log(INFO_LOG + 'We are editing');
+    try {
+        const { nIdx } = route.params;
+        const { noteToEdit } = route.params;
+        console.log(INFO_LOG + 'There is data at ' + nIdx);
+        console.log(noteToEdit.title);
+      } catch (error) {
+        console.log(INFO_LOG + "No data yet")
+      }
     const [title_in, setTitle] = React.useState("");
     const [content_in, setContent] = React.useState("");
 
@@ -86,17 +94,17 @@ export function createNewNote({navigation}) {
     );
   }
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    bg: {
-      flex: 1,
-      height: '100%',
-      width: '100%',
-      alignItems: 'center',
-    }
-  });
+const styles = StyleSheet.create({
+container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+},
+bg: {
+    flex: 1,
+    height: '100%',
+    width: '100%',
+    alignItems: 'center',
+}
+});

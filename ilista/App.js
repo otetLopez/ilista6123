@@ -7,6 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import bg from './assets/bg.jpg';
 import {createNewNote} from './src/AddNote.js'
+import {editNote} from './src/EditNote.js'
 import {Note} from './src/Note.js'
 
 'use strict';
@@ -46,12 +47,6 @@ function homeScreen({ route, navigation }) {
     console.log("Removing note at index " + id); 
   };
 
-  const editNote = id => {
-    console.log("Editing note at index " + id); 
-    const where = document.getElementById("root");
-    ReactDOM.render(<EditNotePage noteId={id}/>, where);
-  };
-
   const style_add_btn = {
     flex: 1,
     width: 60,
@@ -85,7 +80,7 @@ function homeScreen({ route, navigation }) {
             {<DisplayList 
               posts={notesList}
               removeNote={removeNote}
-              editNote={editNote}
+              navigation={navigation}
             />}
           </View>
        
@@ -116,16 +111,6 @@ function processNewData(nIndex, nTitle , nContent) {
   }
 }
 
-
-/**
- * editNote()
- * @param {*} id 
- */
-const editNote = id => {
-  console.log("edit note at index " + id); 
-  // Should navigate to edit note
-};
-
 /**
  * Name: DisplayList()
  * HERE COMES THE DRAGON!
@@ -133,7 +118,7 @@ const editNote = id => {
  * 
  * @param {*} props 
  */
-function DisplayList(props) {
+function DisplayList(props, {navigation}) {
   const style_note = {
     borderRadius: 15,
     width: '100%',
@@ -155,7 +140,7 @@ function DisplayList(props) {
   }
   const content = props.posts.map((post) =>
     <View key={post.id}>
-      <TouchableOpacity onPress={() => alert("We will edit this")}>
+      <TouchableOpacity onPress={() => props.navigation.navigate('Edit Note', { nIdx: post.id, noteToEdit: post})}>
       <View style={style_note}>
         <Text style={style_title_in}>{post.title}</Text>
         <Text style={style_content_in}>{post.content}</Text>
@@ -180,6 +165,7 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name="Home" component={homeScreen} options={{title: 'Notes'}}/>
         <Stack.Screen name="New Note" component={createNewNote} />
+        <Stack.Screen name="Edit Note" component={editNote} />
       </Stack.Navigator>
     }</NavigationContainer>
   );
