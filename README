@@ -1,0 +1,27 @@
+Instructions for running
+  1. Make sure necessary npm & react packages are installed.  Refer to commands below.
+  2. Inside project folder ilista, run expo throuh command:
+	$ expo start
+
+
+Instructions in project development
+
+  1. Create Project
+	$ expo init ilista
+  2. <.. Modify Code to display ilist
+  3. Install Node packages in Project folder [Ilista]
+	$ npm install
+  4. Install React Native
+	$ npm install @react-navigation/native
+  5. Install React Native dependencies into expo based project
+	$ expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view 
+  6. Install Stack
+	$ npm install @react-navigation/stack
+
+
+ERRORS:
+  Babel Errors occur 
+	1. npm install --save-exact @babel/runtime@7.0.0-beta.55
+        2. Delete package-lock.json && node_modules folder
+        3. Do installation above [3, 4, 5]
+
