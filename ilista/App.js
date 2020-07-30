@@ -17,14 +17,12 @@ function homeScreen({ route, navigation }) {
   ]);
 
   try {
-    // const newTitle  = navigation.getParam('newTitle');
-    // const newContent = navigation.getParam('newContent');
     const { newTitle } = route.params;
     const { newContent } = route.params;
     
     var test1 = JSON.stringify(newTitle);
     var test2 = JSON.stringify(newContent);
-    console.log(test1 + test2 );
+    console.log(INFO_LOG + test1 + test2 );
 
   } catch (error) {
     console.log("No data yet")
@@ -71,11 +69,11 @@ function homeScreen({ route, navigation }) {
   return(
     <View style={styles.container}>
       <ImageBackground source={bg} style={styles.bg}>
-        <View style={{alignItems: 'center', textAlign: 'center', padding: 30}}>
+        <View style={{alignItems: 'center', padding: 30}}>
         <Text style= {{fontSize: 40, fontWeight: 'bold', color: '#f0f0f0'}}>ILISTA</Text>
           <Text style= {{color: '#f0f0f0', fontStyle: 'italic'}}>{"\n"}A companion.  A simple note application </Text>
           
-          <View className="notelist" style={style_notelist}>
+          <View style={style_notelist}>
             {<DisplayList 
               posts={notesList}
               removeNote={removeNote}

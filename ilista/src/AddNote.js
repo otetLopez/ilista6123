@@ -1,12 +1,8 @@
-import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
+import React from 'react';
 import { StyleSheet, ImageBackground, Text, View, Button, TextInput} from 'react-native';
 import 'react-native-gesture-handler';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 
 import bg from '../assets/bg.jpg';
-// import { TextInput } from 'react-native-gesture-handler';
 export const INFO_LOG = "INFO_DEBUG: ";
 
 function NoteForm() {
@@ -42,12 +38,12 @@ function NoteForm() {
         borderRadius: 4,
         height: 100,
         fontSize: 15,
-        marginTop: '3%',
+        marginTop: '1%',
     };
 
     return (
 
-        <View className="noteForm" style={style_noteform}>
+        <View style={style_noteform}>
             <TextInput
                 placeholder="New Note"
                 id="title_in"
@@ -56,7 +52,6 @@ function NoteForm() {
                 onChangeText={text => setTitle(text)}
             />
             <TextInput 
-                className="content_in" 
                 id="content_in"
                 placeholder="Enter you note details here..."
                 value={content_in}
@@ -78,7 +73,7 @@ export function createNewNote({navigation}) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <ImageBackground source={bg} style={styles.bg}>
-            <View style={{height: '100%', width: '100%', alignItems: 'center', textAlign: 'center', padding: 30}}>
+            <View style={{height: '100%', width: '100%', alignItems: 'center', padding: 30}}>
                 <Text style= {{fontSize: 40, fontWeight: 'bold', color: '#f0f0f0'}}>ILISTA</Text>
                 <Text style= {{color: '#f0f0f0', fontStyle: 'italic'}}>{"\n"}A companion.  A simple note application </Text>
                 <NoteForm/>
@@ -86,7 +81,6 @@ export function createNewNote({navigation}) {
                     <Button title='Save' onPress={() => {
                         var title = document.getElementById('title_in').value
                         var content = document.getElementById('content_in').value;
-                        console.log("Before: " + title + content);
                         navigation.navigate('Home', {
                             newTitle: title,
                             newContent: content,
