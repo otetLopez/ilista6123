@@ -68,7 +68,7 @@ function homeScreen({ navigation }) {
             <Text style= {{color: '#f0f0f0'}}>Inser Note Display here </Text>
           </View>
        
-          <View style={{marginTop: 5}}>
+          <View style={{marginTop: '10%', marginBottom: '3%'}}>
           <Button title='+' style={style_add_btn} onPress={() => navigation.navigate('New Note')}/>
           </View>
         </View>
