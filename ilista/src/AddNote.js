@@ -50,12 +50,14 @@ function NoteForm() {
         <View className="noteForm" style={style_noteform}>
             <TextInput
                 placeholder="New Note"
+                id="title_in"
                 value={title_in}
                 style={style_title_in}
                 onChangeText={text => setTitle(text)}
             />
             <TextInput 
                 className="content_in" 
+                id="content_in"
                 placeholder="Enter you note details here..."
                 value={content_in}
                 onChangeText={text => setContent(text)}
@@ -81,7 +83,15 @@ export function createNewNote({navigation}) {
                 <Text style= {{color: '#f0f0f0', fontStyle: 'italic'}}>{"\n"}A companion.  A simple note application </Text>
                 <NoteForm/>
                 <View style={{marginTop: '10%'}}> 
-                    <Button title='Save' onPress={() => navigation.navigate('New Note')}/>
+                    <Button title='Save' onPress={() => {
+                        var title = document.getElementById('title_in').value
+                        var content = document.getElementById('content_in').value;
+                        console.log("Before: " + title + content);
+                        navigation.navigate('Home', {
+                            newTitle: title,
+                            newContent: content,
+                        });
+                    }}/>
                     <Button title='Cancel' onPress={() => navigation.goBack()}/> 
                 </View>
             </View>

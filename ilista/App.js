@@ -12,9 +12,25 @@ export const INFO_LOG = "INFO_DEBUG: ";
 var notesList = [];
 var nId = 0; 
 
-function homeScreen({ navigation }) {
+function homeScreen({ route, navigation }) {
   const [notes, setNotes] = useState([
   ]);
+
+  try {
+    // const newTitle  = navigation.getParam('newTitle');
+    // const newContent = navigation.getParam('newContent');
+    const { newTitle } = route.params;
+    const { newContent } = route.params;
+    
+    var test1 = JSON.stringify(newTitle);
+    var test2 = JSON.stringify(newContent);
+    console.log(test1 + test2 );
+
+  } catch (error) {
+    console.log("No data yet")
+  }
+
+
   const removeNote = id => {
     const newNotes = [...notes];
     for(var i=0; i<notesList.length; i++) {
@@ -46,7 +62,7 @@ function homeScreen({ navigation }) {
     backgroundColor: 'rgba(1, 90, 169,.2)', 
     padding: 20, 
     borderRadius: 4, 
-    alignItems: 'center', 
+    alignItems: 'center',
     marginLeft: '5%', 
     marginRight: '5%', 
     marginTop: '20%'};
@@ -68,7 +84,7 @@ function homeScreen({ navigation }) {
             <Text style= {{color: '#f0f0f0'}}>Inser Note Display here </Text>
           </View>
        
-          <View style={{marginTop: '10%', marginBottom: '3%'}}>
+          <View style={{marginTop: '8%', marginBottom: '3%'}}>
           <Button title='+' style={style_add_btn} onPress={() => navigation.navigate('New Note')}/>
           </View>
         </View>
