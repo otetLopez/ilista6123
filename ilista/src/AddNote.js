@@ -39,7 +39,6 @@ export function createNewNote({navigation}) {
     };
     const style_content_in = {
         width: '100%',
-        fontSize: 20,
         backgroundColor: '#008080',
         color: '#f0f0f0',
         padding: 5,
@@ -77,6 +76,7 @@ export function createNewNote({navigation}) {
                         navigation.navigate('Home', {
                             newTitle: title_in,
                             newContent: content_in,
+                            isNew: true
                         });
                     }}/>
                     <Button title='Cancel' onPress={() => navigation.goBack()}/> 
