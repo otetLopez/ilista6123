@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, {useState} from 'react';
 import { StyleSheet, ImageBackground, Text, View, Button } from 'react-native';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
@@ -7,12 +7,31 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import bg from './assets/bg.jpg';
 
-
+import {createNewNote} from './src/AddNote.js'
 export const INFO_LOG = "INFO_DEBUG: ";
 var notesList = [];
 var nId = 0; 
 
 function homeScreen({ navigation }) {
+  const [notes, setNotes] = useState([
+  ]);
+  const removeNote = id => {
+    const newNotes = [...notes];
+    for(var i=0; i<notesList.length; i++) {
+      if(notesList[i].id === id) {
+        notesList.splice(i, 1);
+      }
+    }
+    setNotes(newNotes);
+    console.log("Removing note at index " + id); 
+  };
+
+  const editNote = id => {
+    console.log("Editing note at index " + id); 
+    const where = document.getElementById("root");
+    ReactDOM.render(<EditNotePage noteId={id}/>, where);
+  };
+
   const style_add_btn = {
     flex: 1,
     width: 60,
@@ -30,7 +49,7 @@ function homeScreen({ navigation }) {
     alignItems: 'center', 
     marginLeft: '5%', 
     marginRight: '5%', 
-    marginTop: '25%'};
+    marginTop: '20%'};
 
   // <button style={style_add_btn} onClick={() => navigation.navigate('New Note')}><Text>+</Text></button> 
   return(
@@ -41,6 +60,11 @@ function homeScreen({ navigation }) {
           <Text style= {{color: '#f0f0f0', fontStyle: 'italic'}}>{"\n"}A companion.  A simple note application </Text>
           
           <View className="notelist" style={style_notelist}>
+            {<DisplayList 
+              posts={notesList}
+              removeNote={removeNote}
+              editNote={editNote}
+            />}
             <Text style= {{color: '#f0f0f0'}}>Inser Note Display here </Text>
           </View>
        
@@ -53,21 +77,6 @@ function homeScreen({ navigation }) {
     </View>
   );
 }
-
-
-/**
- * Name: createNewNote() 
- * This function routes user to add new note view.  Called when "Add New Note" button is called.
- * The note_index is just incremented when there is a note being pushed
- */
-function createNewNote() {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-    </View>
-  );
-}
-
 /**
  * editNote()
  * @param {*} id 
@@ -86,21 +95,20 @@ const editNote = id => {
  */
 function DisplayList(props) {
   const content = props.posts.map((post) =>
-    <div key={post.id}>
-      <div className="note">
-        <h5>Title</h5>
-        <h3 onClick={() => props.editNote(post.id)}>{post.title}</h3>
-        <h5>Details</h5>
-        <h4>{post.content}</h4>
-         <button className="deleteButton" onClick={() => props.removeNote(post.id)}>Delete Note</button> 
-      </div>
-    </div>
+    <View key={post.id}>
+      <View>
+        <Text>Title</Text>
+        <Text onClick={() => props.editNote(post.id)}>{post.title}</Text>
+        <Text>{"/n"}{post.content}</Text>
+        <Button title='DEL' onPress={() => props.removeNote(post.id)}/>
+      </View>
+    </View>
   );
   return (
     <View>
-      <div>
+      <View>
         {content}
-      </div>
+      </View>
     </View>
   );
 }
