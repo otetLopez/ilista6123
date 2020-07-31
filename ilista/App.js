@@ -118,9 +118,12 @@ function processNewData(nIndex, nTitle , nContent) {
     console.log(INFO_LOG + "We are updating at " + nIndex);
     var i = 0;
     for(i=0; i<notesList.length; i++) {
-      if(i.id === nIndex) {
-        i.title = nTitle;
-        i.content = nContent;
+      console.log(INFO_LOG + i.id )
+      if(notesList[i].id === nIndex) {
+        console.log(INFO_LOG + notesList[i].id )
+        notesList[i].title = nTitle;
+        notesList[i].content = nContent;
+        console.log(INFO_LOG + notesList[i].id + ":" + notesList[i].title + "," + notesList[i].content)
       }
     }
   }
