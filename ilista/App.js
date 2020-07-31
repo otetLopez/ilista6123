@@ -22,18 +22,23 @@ function homeScreen({ route, navigation }) {
   const [notes, setNotes] = useState([
   ]);
   console.log(INFO_LOG + "isNew is " + isNew);
+  console.log(INFO_LOG + "nId is " + nId);
   /* Let's check if there are params sent from AddNote or Edit */
   if(isNew === true) {
     try {
       const { newTitle } = route.params;
       const { newContent } = route.params;
-      const { index } = route.params;
-      processNewData(index, newTitle, newContent);
+      const { nIdx } = route.params;
+      processNewData(nIdx, newTitle, newContent);
       isNew = false;
     } catch (error) {
       console.log(INFO_LOG + "No data yet")
     }
   }
+ 
+  const editNote = id => {
+    
+  };
 
   const removeNote = id => {
     console.log(INFO_LOG + "Removing note at index " + id); 
@@ -80,6 +85,7 @@ function homeScreen({ route, navigation }) {
             {<DisplayList 
               posts={notesList}
               removeNote={removeNote}
+              editNote={editNote}
               navigation={navigation}
             />}
           </View>
@@ -96,7 +102,7 @@ function homeScreen({ route, navigation }) {
 }
 
 function processNewData(nIndex, nTitle , nContent) {
-  console.log(INFO_LOG + "processNewData()" + nTitle + nContent + nIndex )
+  console.log(INFO_LOG + "processNewData(): " + nIndex + ":" +  nTitle + "," + nContent )
 
   // Let's give a default email for now
   var email = "ilista@admin.com";
@@ -108,6 +114,15 @@ function processNewData(nIndex, nTitle , nContent) {
     nId = nId + 1;
   } else if (nIndex === null) {
     console.log(INFO_LOG + "nIndex is not set");
+  } else if (nIndex > -1) {
+    console.log(INFO_LOG + "We are updating at " + nIndex);
+    var i = 0;
+    for(i=0; i<notesList.length; i++) {
+      if(i.id === nIndex) {
+        i.title = nTitle;
+        i.content = nContent;
+      }
+    }
   }
 }
 
@@ -143,7 +158,7 @@ function DisplayList(props, {navigation}) {
       <TouchableOpacity onPress={() => {
         isNew = true;
         props.navigation.navigate('Edit Note', { nIdx: post.id, noteToEdit: post})
-      }}>
+        }}>
       <View style={style_note}>
         <Text style={style_title_in}>{post.title}</Text>
         <Text style={style_content_in}>{post.content}</Text>

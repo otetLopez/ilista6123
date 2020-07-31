@@ -14,16 +14,16 @@ var isUpdated = false;
  * This function routes user to edit  note view.  
  */
 export function editNote({route, navigation}) {
+    const [note_index, setIndex] = React.useState("");
     const [title_in, setTitle] = React.useState("");
     const [content_in, setContent] = React.useState("");
    
-    var note_index;  //initially undefined
     try {
         if(isUpdated === false) {
             const { nIdx } = route.params;
             const { noteToEdit } = route.params;
             // console.log(INFO_LOG + 'There is data at ' + nIdx + ":" + noteToEdit.title + "," + noteToEdit.content);
-            note_index = nIdx;
+            setIndex(nIdx);
             var oldTitle = noteToEdit.title;
             var oldContent = noteToEdit.content;
             console.log(INFO_LOG + 'We are editing data at ' + nIdx + ":" + oldTitle + "," + oldContent);

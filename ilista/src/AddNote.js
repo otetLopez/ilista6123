@@ -74,6 +74,7 @@ export function createNewNote({navigation}) {
                     <Button title='Save' onPress={() => {
                         console.log(INFO_LOG + "Before: " + title_in + content_in);
                         navigation.navigate('Home', {
+                            nIdx: undefined,
                             newTitle: title_in,
                             newContent: content_in
                         });
