@@ -35,10 +35,6 @@ function homeScreen({ route, navigation }) {
       console.log(INFO_LOG + "No data yet")
     }
   }
- 
-  const editNote = id => {
-    
-  };
 
   const removeNote = id => {
     console.log(INFO_LOG + "Removing note at index " + id); 
@@ -85,7 +81,6 @@ function homeScreen({ route, navigation }) {
             {<DisplayList 
               posts={notesList}
               removeNote={removeNote}
-              editNote={editNote}
               navigation={navigation}
             />}
           </View>
