@@ -9,6 +9,7 @@ import bg from './assets/bg.jpg';
 import {createNewNote} from './src/AddNote.js'
 import {editNote} from './src/EditNote.js'
 import {Note} from './src/Note.js'
+import axios from 'axios';
 
 'use strict';
 
@@ -96,6 +97,21 @@ function homeScreen({ route, navigation }) {
   );
 }
 
+function getAllNotesFromDB() {
+  var allNotes =[];
+
+  axios.get("http://localhost:8000/ilista/getallnotes")
+      .then(response => {
+          console.log('getting data from axios', response.data);
+          allNotes = response.data;
+      })
+      .catch(error => {
+          console.log(error);
+      });
+     
+      return allNotes;
+}
+
 function processNewData(nIndex, nTitle , nContent) {
   console.log(INFO_LOG + "processNewData(): " + nIndex + ":" +  nTitle + "," + nContent )
 
@@ -131,7 +147,9 @@ function processNewData(nIndex, nTitle , nContent) {
  * 
  * @param {*} props 
  */
+var allNotes = [];
 function DisplayList(props, {navigation}) {
+  allNotes = getAllNotesFromDB();
   const style_note = {
     borderRadius: 15,
     width: '100%',
