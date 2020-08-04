@@ -31,6 +31,7 @@ function homeScreen({ route, navigation }) {
       const { newContent } = route.params;
       const { nIdx } = route.params;
       processNewData(nIdx, newTitle, newContent);
+      console.log(INFO_LOG + 'Finished Proessing');
       isNew = false;
     } catch (error) {
       console.log(INFO_LOG + "No data yet")
@@ -50,7 +51,9 @@ function homeScreen({ route, navigation }) {
     // }
     deleteNoteFromDB(id);
     // Make sure we have the latest
-    noteList = getAllNotesFromDB();
+    // noteList = getAllNotesFromDB();
+    getAllNotesFromDB();
+
 
     /************************* */
     // TODO should wait for noteList to be updated
@@ -114,12 +117,17 @@ function getAllNotesFromDB() {
       .then(response => {
           console.log('getting data from axios', response.data);
           allNotes = response.data;
+          console.log(INFO_LOG + 'Returning allNotes');
+          notesList = allNotes;
+          return allNotes;
       })
       .catch(error => {
           console.log(error);
+          return allNotes;
       });
-     
-      return allNotes;
+      // console.log(INFO_LOG + 'Returning allNotes');
+      // isDone = true;
+      // return allNotes;
 }
 
 function addNoteToDB(id,title,content){
@@ -153,7 +161,12 @@ function deleteNoteFromDB(id){
   });
 }
 
-function processNewData(nIndex, nTitle , nContent) {
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
+async function processNewData(nIndex, nTitle , nContent) {
   console.log(INFO_LOG + "processNewData(): " + nIndex + ":" +  nTitle + "," + nContent )
 
   // New Notes should have undefined nIndex
@@ -164,9 +177,11 @@ function processNewData(nIndex, nTitle , nContent) {
     // notesList.push(newNote);
     addNoteToDB(nId,nTitle,nContent);
     nId = nId + 1;
-    notesList = getAllNotesFromDB();
+    getAllNotesFromDB();
+    await sleep(2000);
     /************************* */
     // TODO should wait for noteList to be updated
+    console.log(INFO_LOG + 'list should be updated');
     /************************* */
     
   } else if (nIndex === null) {
@@ -187,7 +202,8 @@ function processNewData(nIndex, nTitle , nContent) {
     // }
     updateNoteAtDB(nIndex, nTitle, nContent);
     console.log(INFO_LOG + notesList[i].id + ":" + notesList[i].title + "," + notesList[i].content);
-    notesList = getAllNotesFromDB();
+    // notesList = getAllNotesFromDB();
+    getAllNotesFromDB();
     /************************* */
     // TODO should wait for noteList to be updated
     /************************* */ 
