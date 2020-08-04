@@ -23,11 +23,9 @@ var isFirstLoad = true;
 function homeScreen({ route, navigation }) {
   const [notes, setNotes] = useState([
   ]);
-  console.log(INFO_LOG + "isNew is " + isNew);
-  console.log(INFO_LOG + "nId is " + nId);
+
   /* Let's check if there are params sent from AddNote or Edit */
   if(isNew === true || isFirstLoad === true) {
-
     var loadData = async () => {
       console.log(INFO_LOG + 'ILISTA loading data start');
       await getAllNotesFromDB();
@@ -35,7 +33,6 @@ function homeScreen({ route, navigation }) {
       const newNotes = [...notes];
       setNotes(newNotes);
     }
-
     loadData();
     isFirstLoad = false;
     isNew = false;
@@ -44,7 +41,7 @@ function homeScreen({ route, navigation }) {
   const removeNote = id => {
     var reloadData = async () => {
       console.log(INFO_LOG + "Removing note at index " + id); 
-      await deleteNoteFromDB(id);
+      deleteNoteFromDB(id);
       await getAllNotesFromDB();
       console.log(INFO_LOG + 'ILISTA loading data');
       const newNotes = [...notes];
@@ -58,11 +55,19 @@ function homeScreen({ route, navigation }) {
     flex: 1,
     width: 60,
     height: 60,
-    color: '#f0ffff',
     backgroundColor: '#4b0082',
-    borderRadius: 30,
+   borderRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center'
+  };
+  const style_add_btn_txt = {
+    flex: 1,
+    color: '#f0ffff',
+    margin: 'auto',
+    paddingTop: '10%',
+    alignItems: 'center',
+    justifyContent: 'center',
     fontSize: 30,
-    textAlign: 'center'
   };
 
   const style_notelist = { 
@@ -92,8 +97,12 @@ function homeScreen({ route, navigation }) {
           </View>
        
           <View style={{marginTop: '2%', marginBottom: '3%'}}>
-          <Button title='+' color='#f0ffff' backgroundColor='#4b0082' onPress={() => {isNew = true;
-                                      navigation.navigate('New Note')}}/>
+          <TouchableOpacity onPress={() => {isNew = true;
+                                      navigation.navigate('New Note')}}>
+            <View style={style_add_btn} >
+              <Text style={style_add_btn_txt}>+</Text>
+            </View>  
+          </TouchableOpacity>
           </View>
         </View>
       </ImageBackground>
