@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
 import { StyleSheet, ImageBackground, Text, View, Button, TouchableOpacity } from 'react-native';
 import 'react-native-gesture-handler';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, NavigationEvents } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import bg from './assets/bg.jpg';
@@ -18,6 +18,7 @@ export const INFO_LOG = "INFO_APP_DEBUG: ";
 var notesList = [];
 var nId = 0; 
 var isNew;
+var isFirstLoad = true;
 
 function homeScreen({ route, navigation }) {
   const [notes, setNotes] = useState([
@@ -25,41 +26,32 @@ function homeScreen({ route, navigation }) {
   console.log(INFO_LOG + "isNew is " + isNew);
   console.log(INFO_LOG + "nId is " + nId);
   /* Let's check if there are params sent from AddNote or Edit */
-  if(isNew === true) {
-    try {
-      const { newTitle } = route.params;
-      const { newContent } = route.params;
-      const { nIdx } = route.params;
-      processNewData(nIdx, newTitle, newContent);
-      console.log(INFO_LOG + 'Finished Proessing');
-      isNew = false;
-    } catch (error) {
-      console.log(INFO_LOG + "No data yet")
+  if(isNew === true || isFirstLoad === true) {
+
+    var loadData = async () => {
+      console.log(INFO_LOG + 'ILISTA loading data start');
+      await getAllNotesFromDB();
+      console.log(INFO_LOG + 'ILISTA loading data end');
+      const newNotes = [...notes];
+      setNotes(newNotes);
     }
+
+    loadData();
+    isFirstLoad = false;
+    isNew = false;
   }
 
   const removeNote = id => {
-    console.log(INFO_LOG + "Removing note at index " + id); 
-    const newNotes = [...notes];
-    
-  
-    // for(var i=0; i<notesList.length; i++) {
-    //   if(notesList[i].id === id) {
-    //     notesList.splice(i, 1);
-       
-    //   }
-    // }
-    deleteNoteFromDB(id);
-    // Make sure we have the latest
-    // noteList = getAllNotesFromDB();
-    getAllNotesFromDB();
+    var reloadData = async () => {
+      console.log(INFO_LOG + "Removing note at index " + id); 
+      await deleteNoteFromDB(id);
+      await getAllNotesFromDB();
+      console.log(INFO_LOG + 'ILISTA loading data');
+      const newNotes = [...notes];
+      setNotes(newNotes);
+    }
 
-
-    /************************* */
-    // TODO should wait for noteList to be updated
-    /************************* */
-    setNotes(newNotes);
-    console.log("Removing note at index " + id); 
+    reloadData();
   };
 
   const style_add_btn = {
@@ -110,10 +102,10 @@ function homeScreen({ route, navigation }) {
   );
 }
 
-function getAllNotesFromDB() {
+export async function getAllNotesFromDB() {
   var allNotes =[];
 
-  axios.get("http://localhost:8000/ilista/getallnotes")
+  await axios.get("http://localhost:8000/ilista/getallnotes")
       .then(response => {
           console.log('getting data from axios', response.data);
           allNotes = response.data;
@@ -125,12 +117,12 @@ function getAllNotesFromDB() {
           console.log(error);
           return allNotes;
       });
-      // console.log(INFO_LOG + 'Returning allNotes');
+      console.log(INFO_LOG + 'Returning allNotes');
       // isDone = true;
       // return allNotes;
 }
 
-function addNoteToDB(id,title,content){
+export function addNoteToDB(id,title,content){
   axios.get("http://localhost:8000/ilista/addnote/"+id+"/"+title+"/"+content)
   .then(response => {
       console.log('getting data from addnote', response.data);
@@ -141,7 +133,7 @@ function addNoteToDB(id,title,content){
   });
 }
 
-function updateNoteAtDB(id,title,content){
+export function updateNoteAtDB(id,title,content){
   axios.get("http://localhost:8000/ilista/updatenote/"+id+"/"+title+"/"+content)
   .then(response => {
       console.log('update note', response.data);
@@ -151,7 +143,7 @@ function updateNoteAtDB(id,title,content){
   });
 }
 
-function deleteNoteFromDB(id){
+export function deleteNoteFromDB(id){
   axios.get("http://localhost:8000/ilista/deletenote/"+id)
   .then(response => {
       console.log('update note', response.data);
@@ -165,50 +157,6 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-
-async function processNewData(nIndex, nTitle , nContent) {
-  console.log(INFO_LOG + "processNewData(): " + nIndex + ":" +  nTitle + "," + nContent )
-
-  // New Notes should have undefined nIndex
-  if(nIndex === undefined) {
-    // Let's give a default email for now
-    // var email = "ilista@admin.com";
-    // var newNote = new Note(nId, nTitle, nContent, email);
-    // notesList.push(newNote);
-    addNoteToDB(nId,nTitle,nContent);
-    nId = nId + 1;
-    getAllNotesFromDB();
-    await sleep(2000);
-    /************************* */
-    // TODO should wait for noteList to be updated
-    console.log(INFO_LOG + 'list should be updated');
-    /************************* */
-    
-  } else if (nIndex === null) {
-    console.log(INFO_LOG + "nIndex is not set");
-  } else if (nIndex > -1) {
-    console.log(INFO_LOG + "We are updating at " + nIndex);
-    var i = 0;
-    // Make sure we are always updated
-    // notesList = getAllNotesFromDB();
-    // for(i=0; i<notesList.length; i++) {
-      // console.log(INFO_LOG + i.id )
-      // if(notesList[i].id === nIndex) {
-        // console.log(INFO_LOG + notesList[i].id )
-        // notesList[i].title = nTitle;
-        // notesList[i].content = nContent;
-        // break;
-      // }
-    // }
-    updateNoteAtDB(nIndex, nTitle, nContent);
-    console.log(INFO_LOG + notesList[i].id + ":" + notesList[i].title + "," + notesList[i].content);
-    // notesList = getAllNotesFromDB();
-    getAllNotesFromDB();
-    /************************* */
-    // TODO should wait for noteList to be updated
-    /************************* */ 
-  }
-}
 
 /**
  * Name: DisplayList()

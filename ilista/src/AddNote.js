@@ -1,12 +1,17 @@
 import React from 'react';
 import { StyleSheet, ImageBackground, Text, View, Button, TextInput} from 'react-native';
 import 'react-native-gesture-handler';
+import {addNoteToDB, getAllNotesFromDB } from '../App.js'
 
 import bg from '../assets/bg.jpg';
 export const INFO_LOG = "INFO_ADD_DEBUG: ";
 
 'use strict';
 
+function sleep(ms) {
+    console.log(INFO_LOG + 'Entering Sleep Mode');
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
 /**
  * Name: createNewNote() 
@@ -73,11 +78,18 @@ export function createNewNote({navigation}) {
                 <View style={{marginTop: '10%'}}> 
                     <Button title='Save' onPress={() => {
                         console.log(INFO_LOG + "Before: " + title_in + content_in);
-                        navigation.navigate('Home', {
-                            nIdx: undefined,
-                            newTitle: title_in,
-                            newContent: content_in
-                        });
+                        var accessDB = async() => {
+                            await addNoteToDB(0,title_in,content_in);
+                            // await getAllNotesFromDB();
+                            navigation.navigate('Home', {
+                                nIdx: undefined,
+                                newTitle: title_in,
+                                newContent: content_in
+                            });
+                        }
+                        accessDB();
+                        console.log(INFO_LOG + 'After test');
+   
                     }}/>
                     <Button title='Cancel' onPress={() => navigation.goBack()}/> 
                 </View>

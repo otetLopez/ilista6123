@@ -4,6 +4,7 @@ import 'react-native-gesture-handler';
 
 import bg from '../assets/bg.jpg';
 import {Note} from './Note.js';
+import {updateNoteAtDB, getAllNotesFromDB } from '../App.js'
 
 'use strict';
 
@@ -94,11 +95,17 @@ export function editNote({route, navigation}) {
                     <Button title='Save' onPress={() => {
                         console.log(INFO_LOG + "Before: " + note_index + ":" + title_in + "," + content_in);
                         isUpdated=false;
-                        navigation.navigate('Home', {
-                            nIdx: note_index,
-                            newTitle: title_in,
-                            newContent: content_in
-                        });
+                        var accessDB = async() => {
+                            await updateNoteAtDB(note_index,title_in,content_in);
+                            // getAllNotesFromDB();
+                            navigation.navigate('Home', {
+                                nIdx: note_index,
+                                newTitle: title_in,
+                                newContent: content_in
+                            });
+                            console.log(INFO_LOG + 'The list should be updated by now');
+                        }
+                        accessDB();
                     }}/>
                     <Button title='Cancel' onPress={() => {isUpdated=false;navigation.goBack()}}/> 
                 </View>

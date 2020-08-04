@@ -21,7 +21,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
     res.header('Access-Control-Allow-Origin', "*")
     var query = 'INSERT INTO Notes (id ,title,content) VALUES (' + id + ',' + title + ','+ content + ')';
-    db.run('INSERT INTO Notes (id ,title,content) VALUES (?,?,?)',id,title,content,(err)=>{
+    // db.run('INSERT INTO Notes (id ,title,content) VALUES (?,?,?)',id,title,content,(err)=>{
+      db.run('INSERT INTO Notes (title,content) VALUES (?,?)',title,content,(err)=>{
 
         console.log(query);
         if(err){
@@ -68,7 +69,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
   app.get('/ilista/getallnotes' , (req, res) => {
-
     res.header('Access-Control-Allow-Origin', "*")
    
     var allNotes = [];
