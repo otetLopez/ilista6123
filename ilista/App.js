@@ -180,11 +180,11 @@ function processNewData(nIndex, nTitle , nContent) {
  */
 var allNotes = [];
 function DisplayList(props, {navigation}) {
-  allNotes = getAllNotesFromDB();
+  // allNotes = getAllNotesFromDB();
   //addNoteToDB(20,'ttt','ggg');
-  updateNoteAtDB(2 , 'tenn','uuu');
-  deleteNoteFromDB(1);
-  
+  // updateNoteAtDB(2 , 'tenn','uuu');
+  // deleteNoteFromDB(1);
+
   const style_note = {
     borderRadius: 15,
     width: '100%',
