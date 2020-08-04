@@ -127,8 +127,6 @@ export async function getAllNotesFromDB() {
           return allNotes;
       });
       console.log(INFO_LOG + 'Returning allNotes');
-      // isDone = true;
-      // return allNotes;
 }
 
 export function addNoteToDB(id,title,content){
@@ -199,6 +197,23 @@ function DisplayList(props, {navigation}) {
     color: '#f0f0f0',
     textAlign: 'center'
   }
+
+  const style_del_btn = {
+    backgroundColor:'rgb(30, 5, 100)',
+    width: 70,
+
+    marginTop: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10
+  }
+
+  const style_del_btn_txt = {
+    fontStyle: 'italic',
+    fontSize: 10,
+    color: '#f5f5dc'
+  }
+
   const content = props.posts.map((post) =>
     <View key={post.id}>
       <TouchableOpacity onPress={() => {
@@ -208,7 +223,11 @@ function DisplayList(props, {navigation}) {
       <View style={style_note}>
         <Text style={style_title_in}>{post.title}</Text>
         <Text style={style_content_in}>{post.content}</Text>
-        <Button title='DEL' onPress={() => props.removeNote(post.id)}/>
+        <TouchableOpacity onPress={() => props.removeNote(post.id)}>
+          <View style={style_del_btn}>
+            <Text style={style_del_btn_txt}>Delete</Text>
+          </View>
+        </TouchableOpacity>
       </View>
       </TouchableOpacity>
     </View>
