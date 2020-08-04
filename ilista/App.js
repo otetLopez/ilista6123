@@ -51,6 +51,10 @@ function homeScreen({ route, navigation }) {
     deleteNoteFromDB(id);
     // Make sure we have the latest
     noteList = getAllNotesFromDB();
+
+    /************************* */
+    // TODO should wait for noteList to be updated
+    /************************* */
     setNotes(newNotes);
     console.log("Removing note at index " + id); 
   };
@@ -159,27 +163,34 @@ function processNewData(nIndex, nTitle , nContent) {
     // var newNote = new Note(nId, nTitle, nContent, email);
     // notesList.push(newNote);
     addNoteToDB(nId,nTitle,nContent);
-    notesList = getAllNotesFromDB();
     nId = nId + 1;
+    notesList = getAllNotesFromDB();
+    /************************* */
+    // TODO should wait for noteList to be updated
+    /************************* */
+    
   } else if (nIndex === null) {
     console.log(INFO_LOG + "nIndex is not set");
   } else if (nIndex > -1) {
     console.log(INFO_LOG + "We are updating at " + nIndex);
     var i = 0;
     // Make sure we are always updated
-    notesList = getAllNotesFromDB();
-    for(i=0; i<notesList.length; i++) {
-      console.log(INFO_LOG + i.id )
-      if(notesList[i].id === nIndex) {
+    // notesList = getAllNotesFromDB();
+    // for(i=0; i<notesList.length; i++) {
+      // console.log(INFO_LOG + i.id )
+      // if(notesList[i].id === nIndex) {
         // console.log(INFO_LOG + notesList[i].id )
         // notesList[i].title = nTitle;
         // notesList[i].content = nContent;
-        updateNoteAtDB(nIndex, nTitle, nContent);
-        console.log(INFO_LOG + notesList[i].id + ":" + notesList[i].title + "," + notesList[i].content);
-        break;
-      }
-    }
-  notesList = getAllNotesFromDB();
+        // break;
+      // }
+    // }
+    updateNoteAtDB(nIndex, nTitle, nContent);
+    console.log(INFO_LOG + notesList[i].id + ":" + notesList[i].title + "," + notesList[i].content);
+    notesList = getAllNotesFromDB();
+    /************************* */
+    // TODO should wait for noteList to be updated
+    /************************* */ 
   }
 }
 
