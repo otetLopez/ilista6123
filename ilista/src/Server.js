@@ -20,10 +20,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
      var content = req.params.content;
 
     res.header('Access-Control-Allow-Origin', "*")
- 
+    var query = 'INSERT INTO Notes (id ,title,content) VALUES (' + id + ',' + title + ','+ content + ')';
     db.run('INSERT INTO Notes (id ,title,content) VALUES (?,?,?)',id,title,content,(err)=>{
 
-        console.log("girmistir");
+        console.log(query);
         if(err){
            throw err;
         }

@@ -40,11 +40,17 @@ function homeScreen({ route, navigation }) {
   const removeNote = id => {
     console.log(INFO_LOG + "Removing note at index " + id); 
     const newNotes = [...notes];
-    for(var i=0; i<notesList.length; i++) {
-      if(notesList[i].id === id) {
-        notesList.splice(i, 1);
-      }
-    }
+    
+  
+    // for(var i=0; i<notesList.length; i++) {
+    //   if(notesList[i].id === id) {
+    //     notesList.splice(i, 1);
+       
+    //   }
+    // }
+    deleteNoteFromDB(id);
+    // Make sure we have the latest
+    noteList = getAllNotesFromDB();
     setNotes(newNotes);
     console.log("Removing note at index " + id); 
   };
@@ -146,28 +152,34 @@ function deleteNoteFromDB(id){
 function processNewData(nIndex, nTitle , nContent) {
   console.log(INFO_LOG + "processNewData(): " + nIndex + ":" +  nTitle + "," + nContent )
 
-  // Let's give a default email for now
-  var email = "ilista@admin.com";
-
   // New Notes should have undefined nIndex
   if(nIndex === undefined) {
-    var newNote = new Note(nId, nTitle, nContent, email);
-    notesList.push(newNote);
+    // Let's give a default email for now
+    // var email = "ilista@admin.com";
+    // var newNote = new Note(nId, nTitle, nContent, email);
+    // notesList.push(newNote);
+    addNoteToDB(nId,nTitle,nContent);
+    notesList = getAllNotesFromDB();
     nId = nId + 1;
   } else if (nIndex === null) {
     console.log(INFO_LOG + "nIndex is not set");
   } else if (nIndex > -1) {
     console.log(INFO_LOG + "We are updating at " + nIndex);
     var i = 0;
+    // Make sure we are always updated
+    notesList = getAllNotesFromDB();
     for(i=0; i<notesList.length; i++) {
       console.log(INFO_LOG + i.id )
       if(notesList[i].id === nIndex) {
-        console.log(INFO_LOG + notesList[i].id )
-        notesList[i].title = nTitle;
-        notesList[i].content = nContent;
-        console.log(INFO_LOG + notesList[i].id + ":" + notesList[i].title + "," + notesList[i].content)
+        // console.log(INFO_LOG + notesList[i].id )
+        // notesList[i].title = nTitle;
+        // notesList[i].content = nContent;
+        updateNoteAtDB(nIndex, nTitle, nContent);
+        console.log(INFO_LOG + notesList[i].id + ":" + notesList[i].title + "," + notesList[i].content);
+        break;
       }
     }
+  notesList = getAllNotesFromDB();
   }
 }
 
@@ -178,7 +190,6 @@ function processNewData(nIndex, nTitle , nContent) {
  * 
  * @param {*} props 
  */
-var allNotes = [];
 function DisplayList(props, {navigation}) {
   // allNotes = getAllNotesFromDB();
   //addNoteToDB(20,'ttt','ggg');
