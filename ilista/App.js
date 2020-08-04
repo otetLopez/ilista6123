@@ -112,6 +112,37 @@ function getAllNotesFromDB() {
       return allNotes;
 }
 
+function addNoteToDB(id,title,content){
+  axios.get("http://localhost:8000/ilista/addnote/"+id+"/"+title+"/"+content)
+  .then(response => {
+      console.log('getting data from addnote', response.data);
+      
+  })
+  .catch(error => {
+      console.log(error);
+  });
+}
+
+function updateNoteAtDB(id,title,content){
+  axios.get("http://localhost:8000/ilista/updatenote/"+id+"/"+title+"/"+content)
+  .then(response => {
+      console.log('update note', response.data);
+  })
+  .catch(error => {
+      console.log(error);
+  });
+}
+
+function deleteNoteFromDB(id){
+  axios.get("http://localhost:8000/ilista/deletenote/"+id)
+  .then(response => {
+      console.log('update note', response.data);
+  })
+  .catch(error => {
+      console.log(error);
+  });
+}
+
 function processNewData(nIndex, nTitle , nContent) {
   console.log(INFO_LOG + "processNewData(): " + nIndex + ":" +  nTitle + "," + nContent )
 
@@ -150,6 +181,10 @@ function processNewData(nIndex, nTitle , nContent) {
 var allNotes = [];
 function DisplayList(props, {navigation}) {
   allNotes = getAllNotesFromDB();
+  //addNoteToDB(20,'ttt','ggg');
+  updateNoteAtDB(2 , 'tenn','uuu');
+  deleteNoteFromDB(1);
+  
   const style_note = {
     borderRadius: 15,
     width: '100%',

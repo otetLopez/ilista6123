@@ -13,43 +13,57 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 
-app.get('/api/hello/:param', (req, res) => {
-    var str;
-    console.log("gird"+req.params.param);
-    res.header('Access-Control-Allow-Origin', "*")
-
- 
-  });
-
   app.get('/ilista/addnote/:id/:title/:content', (req, res) => {
 
-    var id = id;
-    var title = title;
-    var content = content;
-
-    
+     var id = req.params.id;
+     var title = req.params.title;
+     var content = req.params.content;
 
     res.header('Access-Control-Allow-Origin', "*")
-    
-  });
+ 
+    db.run('INSERT INTO Notes (id ,title,content) VALUES (?,?,?)',id,title,content,(err)=>{
 
+        console.log("girmistir");
+        if(err){
+           throw err;
+        }
+        console.log("Succesfully insert");
+    });
+  });
 
   app.get('/ilista/updatenote/:id/:title/:content', (req, res) => {
 
-    var id = id;
-    var title = title;
-    var content = content;
+    var id = req.params.id;
+    var title = req.params.title;
+    var content = req.params.content;
+
 
     res.header('Access-Control-Allow-Origin', "*")
+
+    db.run('UPDATE Notes SET title = ? , content = ? WHERE id = ?',title,content,id,(err)=>{
+
+        if(err){
+           throw err;
+        }
+        console.log("Succesfully update");
+    });
    
   });
 
   app.get('/ilista/deletenote/:id', (req, res) => {
 
-    var id = id;
-
+    var id = req.params.id;
+    // DELETE FROM Customers WHERE CustomerName='Alfreds Futterkiste';
     res.header('Access-Control-Allow-Origin', "*")
-   
+
+    db.run('DELETE FROM Notes WHERE id = ?',id,(err)=>{
+
+        if(err){
+           throw err;
+        }
+        console.log("Succesfully delete");
+    });
+
   });
 
 
